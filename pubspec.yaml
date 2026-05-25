@@ -1,0 +1,49 @@
+name: narratiq
+description: A smart read + listen app with AI-powered POV detection.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # File picking & permissions
+  file_picker: ^8.1.2
+  permission_handler: ^11.3.1
+
+  # EPUB parsing
+  epubx: ^4.0.0
+
+  # Text to Speech
+  flutter_tts: ^4.2.0
+
+  # Local database
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+
+  # Background audio & notification
+  flutter_foreground_task: ^8.14.0
+  audio_service: ^0.18.13
+
+  # HTTP for internet lookup
+  http: ^1.2.1
+
+  # State management
+  provider: ^6.1.2
+
+  # Shared preferences for settings
+  shared_preferences: ^2.2.3
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
