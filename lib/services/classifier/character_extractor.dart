@@ -117,7 +117,7 @@ class CharacterExtractor {
     // Must not be a stop word
     if (_stopWords.contains(candidate.toLowerCase())) return false;
     // Must be mostly letters
-    if (!RegExp(r'^[A-Za-z\'-]+$').hasMatch(candidate)) return false;
+    if (!RegExp(r"^[A-Za-z-]+$").hasMatch(candidate)) return false;
     return true;
   }
 

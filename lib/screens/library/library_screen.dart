@@ -114,7 +114,7 @@ class LibraryScreen extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => ImportScreen(libraryService: library),
+      builder: (_) => ImportScreen(),
     );
   }
 

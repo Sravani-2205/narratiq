@@ -23,9 +23,7 @@ class AppRoutes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     if (settings.name == reader) {
       final book = settings.arguments as Book;
-      return MaterialPageRoute(
-        builder: (_) => ReaderScreen(book: book),
-      );
+      return MaterialPageRoute(builder: (_) => ReaderScreen(book: book));
     }
     return MaterialPageRoute(builder: (_) => const LibraryScreen());
   }

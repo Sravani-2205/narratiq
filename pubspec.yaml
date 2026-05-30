@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
 
   # File picking & permissions
-  file_picker: ^8.1.2
+  
   permission_handler: ^11.3.1
 
   # EPUB parsing
@@ -39,6 +39,8 @@ dependencies:
 
   # Icons
   cupertino_icons: ^1.0.8
+  uuid: ^4.5.3
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:

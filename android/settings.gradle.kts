@@ -24,3 +24,9 @@ plugins {
 }
 
 include(":app")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {}
+    }
+}

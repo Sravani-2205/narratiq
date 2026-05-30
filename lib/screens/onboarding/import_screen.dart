@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../services/library_service.dart';
 
 class ImportScreen extends StatefulWidget {
-  final LibraryService libraryService;
-  const ImportScreen({super.key, required this.libraryService});
+  final LibraryService? libraryService;
+  const ImportScreen({super.key, this.libraryService});
 
   @override
   State<ImportScreen> createState() => _ImportScreenState();
@@ -13,33 +16,23 @@ class ImportScreen extends StatefulWidget {
 class _ImportScreenState extends State<ImportScreen> {
   bool _isImporting = false;
   String? _error;
+  static const _channel = MethodChannel('com.narratiq.narratiq/filepicker');
 
   Future<void> _pickFile() async {
     setState(() { _isImporting = true; _error = null; });
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['epub', 'txt'],
-      );
-      if (result == null || result.files.isEmpty) {
+      final String? path = await _channel.invokeMethod('pickFile');
+      if (path == null) {
         setState(() => _isImporting = false);
         return;
       }
-
-      final path = result.files.single.path;
-      if (path == null) {
-        setState(() { _isImporting = false; _error = 'Could not access file.'; });
-        return;
-      }
-
-      final book = await widget.libraryService.importBook(path);
+      final library = widget.libraryService ?? context.read<LibraryService>();
+      final book = await library.importBook(path);
       if (!mounted) return;
-
       if (book == null) {
         setState(() { _isImporting = false; _error = 'Could not read this file. Is it a valid EPUB or TXT?'; });
         return;
       }
-
       Navigator.pop(context);
     } catch (e) {
       setState(() { _isImporting = false; _error = 'Import failed: $e'; });
@@ -59,10 +52,8 @@ class _ImportScreenState extends State<ImportScreen> {
           Container(
             width: 40, height: 4,
             margin: const EdgeInsets.only(bottom: 16),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(2),
-            ),
+            decoration: BoxDecoration(color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2)),
           ),
           const Icon(Icons.upload_file, size: 48, color: Color(0xFF6B4EFF)),
           const SizedBox(height: 12),
@@ -89,8 +80,7 @@ class _ImportScreenState extends State<ImportScreen> {
             const SizedBox(height: 16),
           ],
           SizedBox(
-            width: double.infinity,
-            height: 50,
+            width: double.infinity, height: 50,
             child: ElevatedButton.icon(
               onPressed: _isImporting ? null : _pickFile,
               icon: _isImporting
